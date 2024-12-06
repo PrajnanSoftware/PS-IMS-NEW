@@ -34,7 +34,7 @@ const Orders = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost:3000/v1/products');
+                const response = await fetch('http://localhost:8080/v1/products');
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
@@ -68,7 +68,7 @@ const Orders = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/v1/products', {
+            const response = await fetch('http://localhost:8080/v1/products', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
