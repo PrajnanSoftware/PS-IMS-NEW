@@ -47,6 +47,11 @@ const Orders = () => {
         pageNumbers.push(i);
     }
 
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber < 1 || pageNumber > pageNumbers.length) return; // Prevent out of bounds
+        setCurrentPage(pageNumber);
+    };
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
