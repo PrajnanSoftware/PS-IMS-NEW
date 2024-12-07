@@ -100,7 +100,7 @@ const Report = () => {
 
     return (
         <>
-            <div className="space-y-4 mt-20 " style={{ marginLeft: '328px' }}>
+            <div className="space-y-4 mt-20 ml-[210px] lg:ml-[328px] " >
                 <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white p-4 rounded-lg shadow">
                         <h2 className="text-lg font-semibold mb-2">Sales Overview</h2>
