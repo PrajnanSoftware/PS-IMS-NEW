@@ -1,12 +1,15 @@
 import 'font-awesome/css/font-awesome.min.css';
 import { useEffect, useState } from 'react';
 import Popup from './Popup';
+import SortPopup from './SortPopup';
 
 const Orders = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(9); // Adjust for no of items per page
-    const [products, setProducts] = useState([])
+    const [itemsPerPage] = useState(9);
+    const [products, setProducts] = useState([]);
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const [isSortVisible, setIsSortVisible] = useState(false);
+    const [sortOrder, setSortOrder] = useState('ascending'); // Default 
     const [newProduct, setNewProduct] = useState({
         productName: '',
         productId: '',
@@ -19,18 +22,36 @@ const Orders = () => {
         notifyOnDelivery: false,
         status: 'Confirmed'
     });
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
+
+    // sorting based on price
+    const handleSort = (order) => {
+        setSortOrder(order);
+        setIsSortVisible(false); // Close the sort 
     };
+
+    // Sort products 
+    const sortedProducts = [...products].sort((a, b) => {
+        if (sortOrder === 'ascending') {
+            return a.orderValue - b.orderValue;
+        } else {
+            return b.orderValue - a.orderValue;
+        }
+    });
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = sortedProducts.slice(indexOfFirstItem, indexOfLastItem);
 
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(products.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber < 1 || pageNumber > pageNumbers.length) return; // Prevent out of bounds
+        setCurrentPage(pageNumber);
+    };
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -43,6 +64,7 @@ const Orders = () => {
         };
         fetchProducts();
     }, []);
+
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         setNewProduct((prev) => ({
@@ -50,7 +72,6 @@ const Orders = () => {
             [name]: type === 'checkbox' ? checked : value,
         }));
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -96,7 +117,7 @@ const Orders = () => {
                 quantity: '',
                 unit: '',
                 buyingPrice: '',
-                dateOfDelivery: '',
+                deliveryDate: '',
                 notifyOnDelivery: false,
                 status: 'Confirmed',
             });
@@ -107,101 +128,109 @@ const Orders = () => {
 
     return (
         <>
-            <div className="p-2 pt-4 bg-gray-100  ml-80 mt-16">
-                <div className="bg-white p-6 rounded-lg shadow-md ">
-                    <h2 className="text-xl font-bold mb-4">Overall Orders</h2>
-                    <div className="grid grid-cols-4 gap-4 mb-6">
-                        <div className="p-4 bg-blue-100 rounded-lg text-center">
-                            <h3 className="text-blue-600 font-bold p-1">Total Orders</h3>
-                            <p className="text-2xl font-bold p-1">37</p>
-                            <p className="text-gray-500 p-1">Last 7 days</p>
-                        </div>
-                        <div className="p-4 bg-orange-100 rounded-lg text-center">
-                            <h3 className="text-yellow-600 font-bold p-1">Total Received</h3>
-                            <div style={{ display: 'flex', justifyContent: 'space-around', padding: '4px' }}>
-                                <p className="text-2xl font-bold">32</p>
-                                <p className="text-2xl font-bold">₹25000</p>
+            <div>
+                <div className="p-4 bg-gray-100 ml-[200px] xl:ml-[320px] mt-16">
+                    <div className="bg-white p-6 rounded-lg shadow-md ">
+                        <h2 className="text-xl font-bold mb-4">Overall Orders</h2>
+                        <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 mb-6">
+                            <div className="p-4 bg-blue-100 rounded-lg text-center">
+                                <h3 className="text-blue-600 font-bold p-1">Total Orders</h3>
+                                <p className="text-2xl font-bold p-1">37</p>
+                                <p className="text-gray-500 p-1">Last 7 days</p>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-around', padding: '4px' }}>
-                                <p className="text-gray-500 mr-6">Last 7 days</p>
-                                <p className="text-gray-500 mr-6">Revenue</p>
-                            </div>
+                            <div className="p-4 bg-orange-100 rounded-lg text-center">
+                                <h3 className="text-yellow-600 font-bold p-1">Total Received</h3>
+                                <div className='flex justify-around p-1'>
+                                    <p className="text-2xl font-bold">32</p>
+                                    <p className="text-2xl font-bold">₹25000</p>
+                                </div>
+                                <div className='flex justify-around p-1'>
+                                    <p className="text-gray-500 ">Last 7 days</p>
+                                    <p className="text-gray-500 ">Revenue</p>
+                                </div>
 
-                        </div>
-                        <div className="p-4 bg-purple-100 rounded-lg text-center ">
-                            <h3 className="text-purple-600 font-bold p-1">Total Returned</h3>
-                            <div style={{ display: 'flex', justifyContent: 'space-around', padding: '4px' }}>
-                                <p className="text-2xl font-bold">2</p>
-                                <p className="text-2xl font-bold">₹2500</p>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-around', padding: '4px' }}>
-                                <p className="text-gray-500 mr-7">Last 7 days</p>
-                                <p className="text-gray-500 mr-7">Cost</p>
+                            <div className="p-4 bg-purple-100 rounded-lg text-center ">
+                                <h3 className="text-purple-600 font-bold p-1">Total Returned</h3>
+                                <div className='flex justify-around p-1'>
+                                    <p className="text-2xl font-bold">2</p>
+                                    <p className="text-2xl font-bold">₹2500</p>
+                                </div>
+                                <div className='flex justify-around p-1'>
+                                    <p className="text-gray-500 ">Last 7 days</p>
+                                    <p className="text-gray-500 ">Cost</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="p-4 bg-red-100 rounded-lg text-center ">
-                            <h3 className="text-red-600 font-bold p-1">On the way</h3>
-                            <div style={{ display: 'flex', justifyContent: 'space-around', padding: '4px' }}>
-                                <p className="text-2xl font-bold">12</p>
-                                <p className="text-2xl font-bold">₹2168</p>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-around', padding: '4px' }}>
-                                <p className="text-gray-500 mr-6">Ordered</p>
-                                <p className="text-gray-500 mr-6">Cost</p>
+                            <div className="p-4 bg-red-100 rounded-lg text-center ">
+                                <h3 className="text-red-600 font-bold p-1">On the way</h3>
+                                <div className='flex justify-around p-1'>
+                                    <p className="text-2xl font-bold">12</p>
+                                    <p className="text-2xl font-bold">₹2168</p>
+                                </div>
+                                <div className='flex justify-around p-1'>
+                                    <p className="text-gray-500 ">Ordered</p>
+                                    <p className="text-gray-500 ">Cost</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="p-2 bg-gray-100  ml-80 ">
-                <div className="bg-white p-6 rounded-lg shadow-md ">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-bold mb-4">Products</h2>
-                        <div>
-                            <button className="bg-blue-500 text-white px-4 py-2 rounded-3xl mr-2" onClick={() => setIsFormVisible(true)}>Add Product</button>
-                            <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-3xl mr-2">Filters</button>
-                            <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-3xl">Order history</button>
+                <div className="p-4 bg-gray-100 ml-[200px] xl:ml-[320px] mb-10 ">
+                    <div className="bg-white p-6 rounded-lg shadow-md overflow-x-scroll">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold mb-4">Products</h2>
+                            <div>
+                                <button className="bg-blue-500 text-white px-4 py-2 rounded-3xl mr-2" onClick={() => setIsFormVisible(true)}>Add Product</button>
+                                <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-3xl mr-2" onClick={() => setIsSortVisible(true)}>Filters</button>
+                                <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-3xl">Order history</button>
+                            </div>
                         </div>
-                    </div>
-                    <table className="min-w-full bg-white">
-                        <thead>
-                            <tr>
-                                <th className="py-2 px-1 border-b text-center">Product Name</th>
-                                <th className="py-2 px-4 border-b text-center">Order Price</th>
-                                <th className="py-2 px-4 border-b text-center">Quantity</th>
-                                <th className="py-2 px-4 border-b text-center">Product ID</th>
-                                <th className="py-2 px-4 border-b text-center">Delivery Date</th>
-                                <th className="py-2 px-4 border-b text-center">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentItems.map((product, index) => (
-                                <tr key={product._id}>
-                                    <td className="py-2 px-1 border-b text-center">{product.productName}</td>
-                                    <td className="py-2 px-4 border-b text-center">₹{product.orderValue}</td>
-                                    <td className="py-2 px-4 border-b text-center">{product.quantity} Units</td>
-                                    <td className="py-2 px-4 border-b text-center">{product.productId}</td>
-                                    <td className="py-2 px-4 border-b text-center">{new Date(product.dateOfDelivery).toLocaleDateString()}</td>
-                                    <td className={`py-2 px-4 border-b text-center ${getStatusColor(product.status)}`}>{product.status}</td>
+                        <table className="w-full bg-white">
+                            <thead>
+                                <tr>
+                                    <th className="py-2 px-1 border-b text-center">Product Name</th>
+                                    <th className="py-2 px-4 border-b text-center">Order Price</th>
+                                    <th className="py-2 px-4 border-b text-center">Quantity</th>
+                                    <th className="py-2 px-4 border-b text-center">Product ID</th>
+                                    <th className="py-2 px-4 border-b text-center">Delivery Date</th>
+                                    <th className="py-2 px-4 border-b text-center">Status</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div className="flex justify-between items-center mt-4">
-                        <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-                        <p>Page {currentPage} of {pageNumbers.length}</p>
-                        <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === pageNumbers.length}>Next</button>
+                            </thead>
+                            <tbody>
+                                {currentItems.map((product, index) => (
+                                    <tr key={product._id}>
+                                        <td className="py-2 px-1 border-b text-center">{product.productName}</td>
+                                        <td className="py-2 px-4 border-b text-center">₹{product.orderValue}</td>
+                                        <td className="py-2 px-4 border-b text-center">{product.quantity} Units</td>
+                                        <td className="py-2 px-4 border-b text-center">{product.productId}</td>
+                                        <td className="py-2 px-4 border-b text-center">{new Date(product.dateOfDelivery).toLocaleDateString()}</td>
+                                        <td className={`py-2 px-4 border-b text-center ${getStatusColor(product.status)}`}>{product.status}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="flex justify-between items-center mt-4">
+                            <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+                            <p>Page {currentPage} of {pageNumbers.length}</p>
+                            <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === pageNumbers.length}>Next</button>
 
-                    </div>
-                    <Popup
-                        isVisible={isFormVisible}
-                        onClose={() => setIsFormVisible(false)}
-                        onSubmit={handleSubmit}
-                        newProduct={newProduct}
-                        handleInputChange={handleInputChange}
-                    />
-                </div >
+                        </div>
+                        <SortPopup
+                            isVisible={isSortVisible}
+                            onClose={() => setIsSortVisible(false)}
+                            onSort={handleSort}
+                        />
+                        <Popup
+                            isVisible={isFormVisible}
+                            onClose={() => setIsFormVisible(false)}
+                            onSubmit={handleSubmit}
+                            newProduct={newProduct}
+                            handleInputChange={handleInputChange}
+                        />
+                    </div >
+                </div>
             </div>
+
         </>
     )
 }

@@ -100,8 +100,8 @@ const Report = () => {
 
     return (
         <>
-            <div className="space-y-4 mt-20 " style={{ marginLeft: '328px' }}>
-                <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-4 mt-20 ml-[210px] xl:ml-[328px] " >
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                     <div className="bg-white p-4 rounded-lg shadow">
                         <h2 className="text-lg font-semibold mb-2">Sales Overview</h2>
                         <div className="flex justify-around items-center">
@@ -144,7 +144,7 @@ const Report = () => {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                     <div className="bg-white p-4 rounded-lg shadow">
                         <h2 className="text-lg font-semibold mb-2">Purchase Overview</h2>
                         <div className="flex justify-around items-center">
@@ -186,7 +186,7 @@ const Report = () => {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4 ">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 ">
                     <div className="bg-white p-4 rounded-lg shadow ">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-lg font-semibold">Sales & Purchase</h2>
@@ -205,8 +205,8 @@ const Report = () => {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-white p-4 rounded-lg shadow">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 ">
+                    <div className="bg-white p-4 rounded-lg shadow mb-1">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-lg font-semibold">Top Selling Stock</h2>
                             <a href="#" className="text-blue-500">See All</a>
@@ -242,7 +242,7 @@ const Report = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div className="bg-white p-4 rounded-lg shadow">
+                    <div className="bg-white p-4 rounded-lg shadow mb-10 lg:mb-1">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-lg font-semibold">Low Quantity Stock</h2>
                             <a href="#" className="text-blue-500">See All</a>
