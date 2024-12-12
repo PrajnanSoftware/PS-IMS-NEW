@@ -129,10 +129,10 @@ const Orders = () => {
     return (
         <>
             <div>
-                <div className="p-4 bg-gray-100 ml-[200px] lg:ml-[320px] mt-16">
+                <div className="p-4 bg-gray-100 ml-[200px] xl:ml-[320px] mt-16">
                     <div className="bg-white p-6 rounded-lg shadow-md ">
                         <h2 className="text-xl font-bold mb-4">Overall Orders</h2>
-                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+                        <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 mb-6">
                             <div className="p-4 bg-blue-100 rounded-lg text-center">
                                 <h3 className="text-blue-600 font-bold p-1">Total Orders</h3>
                                 <p className="text-2xl font-bold p-1">37</p>
@@ -175,8 +175,8 @@ const Orders = () => {
                         </div>
                     </div>
                 </div>
-                <div className="p-4 bg-gray-100 ml-[200px] lg:ml-[320px] ">
-                    <div className="bg-white p-6 rounded-lg shadow-md ">
+                <div className="p-4 bg-gray-100 ml-[200px] xl:ml-[320px] mb-10 ">
+                    <div className="bg-white p-6 rounded-lg shadow-md overflow-x-scroll">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-bold mb-4">Products</h2>
                             <div>
@@ -185,7 +185,7 @@ const Orders = () => {
                                 <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-3xl">Order history</button>
                             </div>
                         </div>
-                        <table className="min-w-full bg-white">
+                        <table className="w-full bg-white">
                             <thead>
                                 <tr>
                                     <th className="py-2 px-1 border-b text-center">Product Name</th>

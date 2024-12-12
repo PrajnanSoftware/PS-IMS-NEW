@@ -11,7 +11,7 @@ import { CiLogout } from 'react-icons/ci';
 const NavAndSide = () => {
     return (
         <div className="flex">
-            <div className="bg-[#0A2240] h-screen w-50 lg:w-80 p-5 fixed rounded-lg">
+            <div className="bg-[#0A2240] h-screen w-50 xl:w-80 p-5 fixed rounded-lg">
                 <NavLink to="/" className="flex items-center mt-5 mb-5 justify-center">
                     <PiCubeFocusFill className="text-[#1570EF] text-4xl mr-2" />
                     <span className="text-[#1570EF] text-2xl">Dashboard</span>
@@ -68,13 +68,13 @@ const NavAndSide = () => {
                 </nav>
             </div>
 
-            <div className="flex-1 ml-[200px] lg:ml-[320px] bg-white fixed w-10/12">
+            <div className="flex-1 ml-[200px] xl:ml-[320px] bg-white fixed w-10/12">
                 <header className="flex justify-around items-center p-4 shadow-md">
-                    <div className="relative flex items-center">
+                    <div className="relative flex items-center ">
                         <input
                             type="text"
                             placeholder="Search..."
-                            className="border rounded-3xl p-2 pl-10"
+                            className="border rounded-3xl p-2 pl-10 w-96"
                         />
                         <img
                             src={search}
