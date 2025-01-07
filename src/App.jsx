@@ -10,6 +10,7 @@ import NotFoundPage from './components/NotFoundPage';
 import ReportsPage from './pages/ReportsPage';
 import DashBoard from './components/DashBoard';
 
+
 const App = () => {
   const [filteredCustomers, setFilteredCustomers] = useState([]);
 
