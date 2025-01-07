@@ -7,7 +7,9 @@ import CustomerForm from './components/CustomerForm';
 import MainLayout from './layouts/MainLayout';
 import OrdersPage from './pages/OrdersPage';
 import NotFoundPage from './components/NotFoundPage';
+import ReportsPage from './pages/ReportsPage';
 import DashBoard from './components/DashBoard';
+
 
 const App = () => {
   const [filteredCustomers, setFilteredCustomers] = useState([]);
@@ -21,11 +23,12 @@ const App = () => {
       <Route path="/" element={<MainLayout />} >
         <Route index element={<DashBoard />} />
         <Route path='/orders' element={<OrdersPage />} />
-        <Route path='*' element={<NotFoundPage />} />
+        <Route path='/reports' element={<ReportsPage />} />
         <Route path="/get-started" element={<GetStarted />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/customers" element={<CustomerForm fetchCustomers={fetchCustomers} />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Route>
     )
   );

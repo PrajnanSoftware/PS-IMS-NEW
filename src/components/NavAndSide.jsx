@@ -7,6 +7,7 @@ import { AiOutlineRise } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
 import { PiCubeFocusFill } from 'react-icons/pi';
 import { CiLogout } from 'react-icons/ci';
+import { TbReportAnalytics } from "react-icons/tb";
 
 const NavAndSide = () => {
     return (
@@ -34,6 +35,12 @@ const NavAndSide = () => {
                         to="/products">
                         <FaTags className="text-[#1570EF] text-2xl mr-2" />
                         <span>Products</span>
+                    </NavLink>
+                    <NavLink className={({ isActive }) =>
+                        `${isActive ? 'text-white' : 'text-[#949494]'} flex items-center p-4 hover:text-white transition duration-300 mt-5 justify-center`}
+                        to="/Reports">
+                        <TbReportAnalytics className="text-[#1570EF] text-2xl mr-2" />
+                        <span>Reports</span>
                     </NavLink>
                     <NavLink className={({ isActive }) =>
                         `${isActive ? 'text-white' : 'text-[#949494]'} flex items-center p-4 hover:text-white transition duration-300 mt-5 justify-center`}
