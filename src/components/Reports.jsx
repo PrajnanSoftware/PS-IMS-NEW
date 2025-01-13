@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { Chart } from 'chart.js';
 const LineChart = () => {
@@ -71,6 +71,53 @@ const LineChart = () => {
     return <canvas id="myChart" width="400" height="200"></canvas>;
 };
 const Reports = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(9);
+    const [products, setProducts] = useState([]);
+    const [isSortVisible, setIsSortVisible] = useState(false);
+    const [sortOrder, setSortOrder] = useState('ascending'); // Default 
+
+    // sorting based on price
+    const handleSort = (order) => {
+        setSortOrder(order);
+        setIsSortVisible(false); // Close the sort 
+    };
+
+    // Sort products 
+    const sortedProducts = [...products].sort((a, b) => {
+        if (sortOrder === 'ascending') {
+            return a.orderValue - b.orderValue;
+        } else {
+            return b.orderValue - a.orderValue;
+        }
+    });
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = sortedProducts.slice(indexOfFirstItem, indexOfLastItem);
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(products.length / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber < 1 || pageNumber > pageNumbers.length) return; // Prevent out of bounds
+        setCurrentPage(pageNumber);
+    };
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/v1/products');
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        fetchProducts();
+    }, []);
     return (
         <div className="p-4 bg-gray-100 ml-[200px] xl:ml-[320px] mt-16">
             <div className="flex flex-col lg:flex-row gap-6">
@@ -149,12 +196,9 @@ const Reports = () => {
                 </div>
                 <LineChart />
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md overflow-x-scroll">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-lg font-semibold">Best selling product</h2>
-                    <a href="#" className="text-blue-500 text-sm">See All</a>
-                </div>
-                <table className="w-full text-center">
+            <div className="bg-white p-6 rounded-lg shadow-md flex-1">
+                <h2 className="text-xl font-semibold mb-4">Products</h2>
+                <table className="min-w-full bg-white">
                     <thead>
                         <tr>
                             <th className="p-2 whitespace-nowrap">Product</th>
@@ -166,23 +210,23 @@ const Reports = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="p-2">Product 1</td>
-                            <td className="p-2">23567</td>
-                            <td className="p-2">Category 1</td>
-                            <td className="p-2">225 Pack</td>
-                            <td className="p-2">₹17,000</td>
-                            <td className="p-2 text-green-500">2.3%</td>
-                        </tr>
-                        <tr>
-                            <td className="p-2">Product 2</td>
-                            <td className="p-2">25831</td>
-                            <td className="p-2">Category 2</td>
-                            <td className="p-2">200 Pack</td>
-                            <td className="p-2">₹12,000</td>
-                            <td className="p-2 text-green-500">1.3%</td>
-                        </tr>                    </tbody>
+                        {currentItems.map((product) => (
+                            <tr key={product.id}>
+                                <td className="py-2 px-4 border-b">{product.name}</td>
+                                <td className="py-2 px-4 border-b">{product.productId}</td>
+                                <td className="py-2 px-4 border-b">{product.category}</td>
+                                <td className="py-2 px-4 border-b">{product.remainingQuantity}</td>
+                                <td className="py-2 px-4 border-b">₹{product.turnOver}</td>
+                                <td className="py-2 px-4 border-b">₹{product.increaseBy}</td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
+                <div className="flex justify-between items-center mt-4">
+                    <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+                    <p>Page {currentPage} of {pageNumbers.length}</p>
+                    <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === pageNumbers.length}>Next</button>
+                </div>
             </div>
         </div>
     );
