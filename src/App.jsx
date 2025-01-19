@@ -1,48 +1,55 @@
-import React, { useState } from 'react';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
-import GetStarted from './pages/GetStartedPage';
-import Register from './pages/Register';
-import Login from './pages/Login';
-import CustomerForm from './components/CustomerForm';
-import MainLayout from './layouts/MainLayout';
-import OrdersPage from './pages/OrdersPage';
-import NotFoundPage from './components/NotFoundPage';
-import ReportsPage from './pages/ReportsPage';
-import DashBoard from './components/DashBoard';
-import InventoryDashboard from './components/InventoryDashboard';
-import ProductDetails from './components/ProductDetails';
-import Suppliers from './components/Suppliers'; // Import Suppliers component
-import ManageStore from './components/ManageStore';
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
 
-const App = () => {
-  const [filteredCustomers, setFilteredCustomers] = useState([]);
+// Auth pages
+import GetStarted from "./pages/GetStartedPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
-  const fetchCustomers = async () => {
-    // Your fetch logic here
-  };
+// Protected area pages
+import DashBoard from "./components/DashBoard";
+import OrdersPage from "./pages/OrdersPage";
+import ReportsPage from "./pages/ReportsPage";
+import ManageStore from "./components/ManageStore";
+import CustomerForm from "./components/CustomerForm";
+import InventoryDashboard from "./components/InventoryDashboard";
+import ProductDetails from "./components/ProductDetails";
+import Suppliers from "./components/Suppliers";
+import NotFoundPage from "./components/NotFoundPage";
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <MainLayout />,
-      children: [
-        { index: true, element: <DashBoard /> },
-        { path: "/orders", element: <OrdersPage /> },
-        { path: "/reports", element: <ReportsPage /> },
-        { path: "/get-started", element: <GetStarted /> },
-        { path: "/manage-store", element: <ManageStore /> },
-        { path: "/register", element: <Register /> },
-        { path: "/login", element: <Login /> },
-        { path: "/customers", element: <CustomerForm fetchCustomers={fetchCustomers} /> },
-        { path: "/inventory-dashboard", element: <InventoryDashboard /> }, // Inventory dashboard route
-        { path: "/product-details", element: <ProductDetails /> }, // Product details route
-        { path: "/suppliers", element: <Suppliers /> }, // Suppliers page route
-        { path: "*", element: <NotFoundPage /> },
-      ],
-    },
-  ]);
+const router = createBrowserRouter([
+  // If someone goes to "/", redirect to "/get-started"
+  {
+    path: "/",
+    element: <Navigate to="/get-started" replace />,
+  },
 
+  // Auth routes
+  { path: "/get-started", element: <GetStarted /> },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+
+  // Main Layout under /app
+  {
+    path: "/app",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <DashBoard /> },
+      { path: "inventory-dashboard", element: <InventoryDashboard /> },
+      { path: "reports", element: <ReportsPage /> },
+      { path: "suppliers", element: <Suppliers /> },
+      { path: "orders", element: <OrdersPage /> },
+      { path: "manage-store", element: <ManageStore /> },
+      { path: "customers", element: <CustomerForm /> },
+      { path: "product-details", element: <ProductDetails /> },
+      // add additional child routes here
+    ],
+  },
+
+  // 404
+  { path: "*", element: <NotFoundPage /> },
+]);
+
+export default function App() {
   return <RouterProvider router={router} />;
-};
-
-export default App;
+}

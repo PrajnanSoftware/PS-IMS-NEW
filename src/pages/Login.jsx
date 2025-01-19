@@ -40,7 +40,7 @@ export default function Login() {
         // })
 
         // If response is successful, redirect to dashboard
-        navigate('/')
+        navigate('/app')
 
         Swal.fire({
           title: 'Success!',
@@ -60,7 +60,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen m-4 bg-white">
+    <div className="flex flex-col lg:flex-row h-screen bg-white">
       <div className="relative hidden lg:block w-full lg:w-1/2 h-screen">
         <img
           src={warehouseImg}

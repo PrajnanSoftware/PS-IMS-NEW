@@ -3,7 +3,7 @@ import warehouseImg from '../assets/worker.png';
 
 export default function GetStarted() {
     return (
-        <div className="flex flex-col lg:flex-row h-screen m-4 bg-white">
+        <div className="flex flex-col lg:flex-row h-screen bg-white">
             {/* Left Section (image + caption) */}
             <div className="relative hidden lg:block w-full lg:w-1/2 h-screen">
                 <img

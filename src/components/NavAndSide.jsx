@@ -1,3 +1,4 @@
+// NavAndSide.jsx
 import React from 'react';
 import { IoSettingsOutline, IoSpeedometer } from "react-icons/io5";
 import { FaBox, FaShoppingCart, FaTags } from "react-icons/fa";
@@ -11,19 +12,20 @@ import { CiLogout } from 'react-icons/ci';
 import { TbReportAnalytics } from "react-icons/tb";
 
 const NavAndSide = () => {
-    // Updated nav items: note the extraClass on Settings
     const navItems = [
-        { to: '/', label: 'Dashboard', icon: <IoSpeedometer /> },
-        { to: '/inventory-dashboard', label: 'Inventory', icon: <FaBox /> },
-        { to: '/reports', label: 'Reports', icon: <FaTags /> },
-        { to: '/Suppliers', label: 'Suppliers', icon: <TbReportAnalytics /> },
-        { to: '/orders', label: 'Orders', icon: <AiOutlineRise /> },
-        { to: '/manage-store', label: 'Manage Store', icon: <FaShoppingCart /> },
+        // MAIN DASHBOARD (path = /app )
+        { to: '/app', label: 'Dashboard', icon: <IoSpeedometer /> },
+        // NESTED ROUTES ( /app/inventory-dashboard )
+        { to: '/app/inventory-dashboard', label: 'Inventory', icon: <FaBox /> },
+        { to: '/app/reports', label: 'Reports', icon: <FaTags /> },
+        { to: '/app/suppliers', label: 'Suppliers', icon: <TbReportAnalytics /> },
+        { to: '/app/orders', label: 'Orders', icon: <AiOutlineRise /> },
+        { to: '/app/manage-store', label: 'Manage Store', icon: <FaShoppingCart /> },
         {
-            to: '/settings',
+            to: '/app/settings', // or some route you define for settings
             label: 'Settings',
             icon: <IoSettingsOutline />,
-            extraClass: 'mt-[12rem]' // Add extra margin on top
+            extraClass: 'mt-[12rem]'
         },
         { to: '/logout', label: 'Logout', icon: <CiLogout />, special: true },
     ];
@@ -32,7 +34,8 @@ const NavAndSide = () => {
         <div className="flex">
             {/* Sidebar */}
             <div className="bg-[#0A2240] h-screen w-[204px] xl:w-[320px] p-5 fixed">
-                <NavLink to="/" className="flex items-center mt-5 mb-5 justify-center">
+                {/* You can decide if this also goes to /app or some other route */}
+                <NavLink to="/app" className="flex items-center mt-5 mb-5 justify-center">
                     <PiCubeFocusFill className="text-[#1570EF] text-4xl mr-2" />
                     <span className="text-[#1570EF] text-2xl">Inventory</span>
                 </NavLink>
@@ -49,9 +52,9 @@ const NavAndSide = () => {
                                         ? 'text-[#FF0000]'
                                         : 'text-[#949494]'
                                 }
-                                flex items-center p-4 hover:text-white transition duration-300
-                                ${extraClass ? extraClass : 'mt-5'}  /* <-- Use mt-8 for Settings, else mt-5 */
-                                justify-center`
+                flex items-center p-4 hover:text-white transition duration-300
+                ${extraClass ? extraClass : 'mt-5'}  
+                justify-center`
                             }
                         >
                             <span className="text-[#1570EF] text-2xl mr-2">{icon}</span>
