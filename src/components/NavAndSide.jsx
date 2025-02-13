@@ -213,7 +213,7 @@ const NavAndSide = () => {
                 </div>
                 <NavLink
                     to="/get-started"
-                    className="flex items-center p-4 mt-[20rem] hover:text-white transition duration-300 justify-center text-[#FF0000]"
+                    className="flex items-center p-4 mt-[10rem] hover:text-white transition duration-300 justify-center text-[#FF0000]"
                 >
                     <CiLogout className="text-[#1570EF] text-2xl mr-2" />
                     <span>Logout</span>
