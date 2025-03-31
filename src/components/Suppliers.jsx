@@ -15,8 +15,8 @@ function Suppliers() {
         contact: '',
         ProductName: '',
         category: '',
-        BuyingPrice: '',
-        Type: '',
+        buyingPrice: '',
+        type: '',
         onTheWay: '',
     });
 
@@ -46,8 +46,8 @@ function Suppliers() {
         formData.append('contact', newSupplier.contact);
         formData.append('ProductName', newSupplier.ProductName);
         formData.append('category', newSupplier.category);
-        formData.append('BuyingPrice', newSupplier.BuyingPrice);
-        formData.append('Type', newSupplier.Type);
+        formData.append('buyingPrice', newSupplier.buyingPrice);
+        formData.append('type', newSupplier.type);
         formData.append('onTheWay', newSupplier.onTheWay);
         if (profileImage) {
             formData.append('profileImage', profileImage);
@@ -72,8 +72,8 @@ function Suppliers() {
                 contact: '',
                 ProductName: '',
                 category: '',
-                BuyingPrice: '',
-                Type: '',
+                buyingPrice: '',
+                type: '',
                 onTheWay: '',
             });
             setProfileImage(null); // Reset the image
@@ -92,7 +92,7 @@ function Suppliers() {
 
         const headers = [
             "Supplier Name", "Email", "Contact", "Product Name", "Category",
-            "Buying Price", "Type", "On the Way", "Profile Image"
+            "Buying Price", "type", "On the Way", "Profile Image"
         ];
 
         const csvRows = [headers.join(",")];
@@ -104,8 +104,8 @@ function Suppliers() {
                 supplier.contact,
                 supplier.ProductName,
                 supplier.category,
-                supplier.BuyingPrice,
-                supplier.Type,
+                supplier.buyingPrice,
+                supplier.type,
                 supplier.onTheWay ?? 0,
                 supplier.profileImgUrl || "No Image"
             ].map(val => `"${val}"`);
@@ -173,7 +173,7 @@ function Suppliers() {
                 <table className="min-w-full table-auto border-collapse border border-gray-300">
                     <thead>
                         <tr>
-                            {["Supplier Name", "Email", "Contact", "Product Name", "Category", "Buying Price", "Type", "On the Way", "Profile Image"]
+                            {["Supplier Name", "Email", "Contact", "Product Name", "Category", "Buying Price", "type", "On the Way", "Profile Image"]
                                 .map((header, index) => (
                                     <th key={index} className="py-3 px-4 text-center border-b border-gray-300">
                                         {header}
@@ -189,12 +189,12 @@ function Suppliers() {
                                 <td className="py-3 px-4 text-center border-b border-gray-300">{supplier.contact}</td>
                                 <td className="py-3 px-4 text-center border-b border-gray-300">{supplier.ProductName}</td>
                                 <td className="py-3 px-4 text-center border-b border-gray-300">{supplier.category}</td>
-                                <td className="py-3 px-4 text-center border-b border-gray-300">{supplier.BuyingPrice}</td>
+                                <td className="py-3 px-4 text-center border-b border-gray-300">{supplier.buyingPrice}</td>
                                 <td className="py-3 px-4 text-center border-b border-gray-300">
-                                    {supplier.Type === 'Taking Return' ? (
-                                        <span className="text-green-500">{supplier.Type}</span>
+                                    {supplier.type === 'Taking Return' ? (
+                                        <span className="text-green-500">{supplier.type}</span>
                                     ) : (
-                                        <span className="text-red-500">{supplier.Type}</span>
+                                        <span className="text-red-500">{supplier.type}</span>
                                     )}
                                 </td>
                                 <td className="py-3 px-4 text-center border-b border-gray-300">{supplier.onTheWay ?? 0}</td>
@@ -333,13 +333,13 @@ function Suppliers() {
                                     />
                                 </div>
 
-                                {/* BuyingPrice */}
+                                {/* buyingPrice */}
                                 <div className="mb-4 flex items-center">
                                     <label className="block text-gray-700 w-1/3">Buying Price</label>
                                     <input
                                         className="w-2/3 p-2 border rounded"
-                                        name="BuyingPrice"
-                                        value={newSupplier.BuyingPrice}
+                                        name="buyingPrice"
+                                        value={newSupplier.buyingPrice}
                                         onChange={handleInputChange}
                                         placeholder="Enter price"
                                         type="number"
@@ -347,13 +347,13 @@ function Suppliers() {
                                     />
                                 </div>
 
-                                {/* Type */}
+                                {/* type */}
                                 <div className="mb-4 flex items-center">
-                                    <label className="block text-gray-700 w-1/3">Type</label>
+                                    <label className="block text-gray-700 w-1/3">type</label>
                                     <select
                                         className="w-2/3 p-2 border rounded"
-                                        name="Type"
-                                        value={newSupplier.Type}
+                                        name="type"
+                                        value={newSupplier.type}
                                         onChange={handleInputChange}
                                         required
                                     >
