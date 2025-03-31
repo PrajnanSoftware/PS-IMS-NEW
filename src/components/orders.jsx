@@ -338,7 +338,7 @@ const Orders = () => {
         </>
     )
 }
-// Function to get status color
+// Function to get status colors
 const getStatusColor = (status) => {
     switch (status) {
         case 'Confirmed':
