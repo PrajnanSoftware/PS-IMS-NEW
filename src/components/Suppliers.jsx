@@ -347,7 +347,7 @@ function Suppliers() {
                                     />
                                 </div>
 
-                                {/* type */}
+                                {/* type  */}
                                 <div className="mb-4 flex items-center">
                                     <label className="block text-gray-700 w-1/3">type</label>
                                     <select
