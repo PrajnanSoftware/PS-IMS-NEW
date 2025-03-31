@@ -62,8 +62,10 @@ const AddProductForm = ({ onSubmit, onDiscard }) => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    console.log('Selected file:', e.target.files[0]);// check if image is selected ***************
     if (file && file.size > 250 * 1024) {
-      alert('File size exceeds 250KB');
+      alert('File size exceeds 250KB, please select a smaller image.');
+      e.target.value = '';
       setProductImg(null);
     } else {
       setProductImg(file);
@@ -95,6 +97,7 @@ const AddProductForm = ({ onSubmit, onDiscard }) => {
 
     onSubmit(formData);
     setIsSubmitting(false);
+    console.log(productImg); // check if image is sent ***************
     // Close the form after submission
     onDiscard();
   };
@@ -185,7 +188,7 @@ const AddProductForm = ({ onSubmit, onDiscard }) => {
               onChange={(e) => setQuantity(e.target.value)}
               type="number"
               placeholder="Enter quantity"
-              
+
             />
           </div>
 
@@ -284,7 +287,7 @@ const AddProductForm = ({ onSubmit, onDiscard }) => {
             >
               Discard
             </button>
-            <button 
+            <button
               className="bg-blue-600 text-white px-4 py-2 rounded text-sm"
               type="submit"
               disabled={isSubmitting}

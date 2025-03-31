@@ -44,9 +44,11 @@ const ProductDetails = () => {
   // ✅ Saves edited product to database
   const handleSave = async () => {
     try {
+      const token = localStorage.getItem('token');
       const res = await fetch(`http://localhost:8080/api/inventory/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` },
         body: JSON.stringify(updatedProduct),
       });
 
